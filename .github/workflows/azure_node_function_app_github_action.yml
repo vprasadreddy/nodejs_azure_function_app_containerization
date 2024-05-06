@@ -51,6 +51,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
+          context: ./node-function-app
           push: true
           tags: prasadreddy2349/node-function-app/${{env.IMAGE_TAG}}
 
