@@ -7,9 +7,9 @@ env:
   # ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
   # ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
   # ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-  AZURE_REGISTRY_SERVER_NAME: azurefuncdev
-  AZURE_REGISTRY_LOGIN_SERVER: azurefuncdev.azurecr.io
-  AZURE_REGISTRY_USERNAME: azurefuncdev
+  AZURE_REGISTRY_SERVER_NAME: azurefunctest
+  AZURE_REGISTRY_LOGIN_SERVER: azurefunctest.azurecr.io
+  AZURE_REGISTRY_USERNAME: azurefunctest
   IMAGE_NAME: node-function-app
   IMAGE_TAG: 1
   # IMAGE_TAG: ${{ github.sha }}
@@ -39,7 +39,7 @@ jobs:
       - name: "Login via Azure CLI"
         uses: azure/login@v1
         with:
-          creds: ${{ secrets.NEU_VARA_CREDENTIALS }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       # - name: "Docker Login"
       #   uses: docker/login-action@v1
