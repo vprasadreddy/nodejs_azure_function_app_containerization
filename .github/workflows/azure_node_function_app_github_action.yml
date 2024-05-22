@@ -7,13 +7,13 @@ env:
   # ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
   # ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
   # ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-  FUNCTION_APP_NAME: func-app-container123
-  FUNCTION_APP_RESOURCE_GROUP_NAME: container-registry-rg
-  AZURE_REGISTRY_SERVER_NAME: azurefunctest
-  AZURE_REGISTRY_LOGIN_SERVER: azurefunctest.azurecr.io
-  AZURE_REGISTRY_USERNAME: azurefunctest
+  FUNCTION_APP_NAME: container-func-app-2349
+  FUNCTION_APP_RESOURCE_GROUP_NAME: container-function-app-rg
+  AZURE_REGISTRY_SERVER_NAME: demoacr123499
+  AZURE_REGISTRY_LOGIN_SERVER: demoacr123499.azurecr.io
+  AZURE_REGISTRY_USERNAME: demoacr123499
   IMAGE_NAME: node-function-app
-  IMAGE_TAG: 5
+  IMAGE_TAG: 1
   # IMAGE_TAG: ${{ github.sha }}
 
 # Controls when the workflow will run
