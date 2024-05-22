@@ -13,7 +13,7 @@ env:
   AZURE_REGISTRY_LOGIN_SERVER: demoacr123499.azurecr.io
   AZURE_REGISTRY_USERNAME: demoacr123499
   IMAGE_NAME: node-function-app
-  IMAGE_TAG: 1
+  IMAGE_TAG: 2
   # IMAGE_TAG: ${{ github.sha }}
 
 # Controls when the workflow will run
@@ -81,3 +81,6 @@ jobs:
         with:
           app-name: ${{ env.FUNCTION_APP_NAME}}
           image: ${{ env.AZURE_REGISTRY_LOGIN_SERVER}}/${{env.IMAGE_NAME}}:${{env.IMAGE_TAG}}
+
+      - name: Delete docker image
+        run: docker rmi ${{ env.AZURE_REGISTRY_LOGIN_SERVER}}/${{env.IMAGE_NAME}}:${{env.IMAGE_TAG}}
