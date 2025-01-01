@@ -38,7 +38,7 @@ pipeline {
         }
       }
     }
-        stage('scan image using trivy'){
+        stage('publish trivy report'){
             steps {
         dir(env.WORKSPACE_DIR) {
           publishHTML (target : [allowMissing: false,
