@@ -10,7 +10,7 @@ pipeline {
   stages {
     stage('Checkout Git Branch') {
       steps {
-        git branch: 'main', credentialsId: 'github-credentials', url: 'https://github.com/vprasadreddy/nodejs_azure_function_app_containerization.git'
+        git branch: 'master', credentialsId: 'github-credentials', url: 'https://github.com/vprasadreddy/nodejs_azure_function_app_containerization.git'
       }
     }
     //   stage('SonarQube analysis') {
