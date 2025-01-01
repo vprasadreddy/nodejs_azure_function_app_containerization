@@ -24,17 +24,19 @@ pipeline {
     //     }
     //     }
     stage('build docker image') {
-      dir(env.WORKSPACE_DIR) {
-        steps {
+      steps {
+        dir(env.WORKSPACE_DIR) {
           sh 'docker build -t ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG} .'
         }
       }
     }
     stage('Push docker image') {
       steps {
-        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-        echo 'Login successful'
-        sh 'docker push ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG}'
+        dir(env.WORKSPACE_DIR) {
+          sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+          echo 'Login successful'
+          sh 'docker push ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG}'
+        }
       }
     }
   }
