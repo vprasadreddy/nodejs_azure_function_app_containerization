@@ -8,6 +8,14 @@ pipeline {
     IMAGE_TAG = "latest"
   }
   stages {
+      stages {
+    stage('Workspace Cleanup') {
+      steps {
+        // Clean before build
+        cleanWs()
+        echo 'cleaning workspace...'
+      }
+    }
     stage('Checkout Git Branch') {
       steps {
         git branch: 'master', credentialsId: 'github-credentials', url: 'https://github.com/vprasadreddy/nodejs_azure_function_app_containerization.git'
@@ -26,7 +34,7 @@ pipeline {
     stage('scan image using trivy'){
             steps {
         dir(env.WORKSPACE_DIR) {
-          sh 'trivy image --severity HIGH,CRITICAL ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG} --format template --template "@contrib/html.tpl" -o report.html'
+          sh 'trivy image --scanners vuln --severity HIGH,CRITICAL ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG} --format template --template "@/usr/bin/html.tpl" -o report.html'
         }
       }
     }
