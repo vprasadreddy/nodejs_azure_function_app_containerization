@@ -1,0 +1,46 @@
+pipeline {
+  agent any
+  environment {
+    DOCKERHUB_CREDENTIALS = credentials('docker-hub-credentials')
+    WORKSPACE_DIR = "node-function-app" // Define your custom directory
+    DOCKER_HUB_USERNAME = "prasadreddy2349"
+    IMAGE_NAME: "nodejs-azure-function-app-containerization-jenkins"
+    IMAGE_TAG: "latest"
+  }
+  stages {
+    stage('Checkout Git Branch') {
+      steps {
+        git branch: 'main', credentialsId: 'github-credentials', url: 'https://github.com/vprasadreddy/nodejs_azure_function_app_containerization.git'
+      }
+    }
+    //   stage('SonarQube analysis') {
+    //     environment{
+    //         scannerHome = tool 'sonarqube-scanner'
+    //     }
+    //     steps{
+    //     //def scannerHome = tool 'sonarqube-scanner';
+    //     withSonarQubeEnv('sonarqube-cloud-server') { // If you have configured more than one global server connection, you can specify its name
+    //       sh "${scannerHome}/bin/sonar-scanner"
+    //     }
+    //     }
+    stage('build docker image') {
+      dir(env.WORKSPACE_DIR) {
+        steps {
+          sh 'docker build -t ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG} .'
+        }
+      }
+    }
+    stage('Push docker image') {
+      steps {
+        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+        echo 'Login successful'
+        sh 'docker push ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG}'
+      }
+    }
+  }
+  post {
+    always {
+      sh 'docker logout'
+    }
+  }
+}
