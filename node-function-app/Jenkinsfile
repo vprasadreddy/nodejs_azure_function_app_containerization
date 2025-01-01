@@ -4,8 +4,8 @@ pipeline {
     DOCKERHUB_CREDENTIALS = credentials('docker-hub-credentials')
     WORKSPACE_DIR = "node-function-app" // Define your custom directory
     DOCKER_HUB_USERNAME = "prasadreddy2349"
-    IMAGE_NAME: "nodejs-azure-function-app-containerization-jenkins"
-    IMAGE_TAG: "latest"
+    IMAGE_NAME = "nodejs-azure-function-app-containerization-jenkins"
+    IMAGE_TAG = "latest"
   }
   stages {
     stage('Checkout Git Branch') {
