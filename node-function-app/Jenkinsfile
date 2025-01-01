@@ -23,6 +23,13 @@ pipeline {
     //       sh "${scannerHome}/bin/sonar-scanner"
     //     }
     //     }
+    stage('scan image using trivy'){
+            steps {
+        dir(env.WORKSPACE_DIR) {
+          sh 'trivy image --severity HIGH,CRITICAL ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG} --format template --template "@contrib/html.tpl" -o report.html'
+        }
+      }
+    }
     stage('build docker image') {
       steps {
         dir(env.WORKSPACE_DIR) {
