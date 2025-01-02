@@ -1,3 +1,5 @@
+#!groovy
+
 pipeline {
   agent any
   environment {
@@ -20,34 +22,25 @@ pipeline {
         git branch: 'master', credentialsId: 'github-credentials', url: 'https://github.com/vprasadreddy/nodejs_azure_function_app_containerization.git'
       }
     }
-    //   stage('SonarQube analysis') {
-    //     environment{
-    //         scannerHome = tool 'sonarqube-scanner'
-    //     }
-    //     steps{
-    //     //def scannerHome = tool 'sonarqube-scanner';
-    //     withSonarQubeEnv('sonarqube-cloud-server') { // If you have configured more than one global server connection, you can specify its name
-    //       sh "${scannerHome}/bin/sonar-scanner"
-    //     }
-    //     }
-    stage('scan image using trivy'){
-            steps {
+    stage('scan image using trivy') {
+      steps {
         dir(env.WORKSPACE_DIR) {
-          //sh 'trivy image --scanners vuln ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG}'
+          //sh 'trivy image --severity HIGH,CRITICAL --scanners vuln ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG}'
           sh 'trivy image --scanners vuln --format template --template "@/usr/local/share/trivy/templates/html.tpl" -o report.html ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG}'
         }
       }
     }
-        stage('publish trivy report'){
-            steps {
+    stage('publish trivy report') {
+      steps {
         dir(env.WORKSPACE_DIR) {
-          publishHTML (target : [allowMissing: false,
-          alwaysLinkToLastBuild: true,
-          keepAll: true,
-          reportDir: '.',
-          reportFiles: 'report.html',
-          reportName: 'Trivy Scan Report',
-          reportTitles: 'Trivy Scan Report'])
+          publishHTML(target: [allowMissing: false,
+            alwaysLinkToLastBuild: true,
+            keepAll: true,
+            reportDir: '.',
+            reportFiles: 'report.html',
+            reportName: 'Trivy Scan Report',
+            reportTitles: 'Trivy Scan Report'
+          ])
         }
       }
     }
